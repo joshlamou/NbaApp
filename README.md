@@ -1,5 +1,6 @@
 # ruby-cli-template
 
-Use this repository as a template for your Ruby CLI (command line interface) project.
+This repository is library of my favorite players in the NBA. You can add and view players, and take shot if you're feeling lucky.
+ Run ruby nba.rb to recieve a list of options
 
 - Ruby version: `3.2.1`
