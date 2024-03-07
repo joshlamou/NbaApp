@@ -3,35 +3,26 @@ class Nba_Player
   
   def initialize
     @star = [] # Initialize an empty array to store favorite players
-    puts "Welcome to my NBA "
   end
+  
   def start
     star_menu
   end
   
   def star_menu
     loop do
-      puts 'Options'
-      puts '1. Favorite Player'
-      puts '2. Add Player'
-      puts '3. View Players'
-      puts '4. Take a shot'
-      puts '5. Exit'
-
+      puts_options_menu
+      
       choice = gets.chomp.to_i
 
       case choice
       when 1
-        puts 'Favorite Player selected'
-        puts favorite_player
+        favorite_player
       when 2
-        puts 'Add Player selected'
         user_add_player
       when 3
-        puts 'View Players selected'
         view_player
       when 4
-        puts 'Take a shot selected'
         puts shot_attempt
       when 5
         puts 'Exiting...'
@@ -43,7 +34,7 @@ class Nba_Player
   end
 
   def shot_attempt
-    reactions = [ 
+    reactions = [
       "You missed your shot.",
       "You made your shot!",
       "Your shot hit the rim and didn't go in.",
@@ -51,13 +42,14 @@ class Nba_Player
       "You airballed your shot.",
       "You made a 3pt shot!"
     ]
-    return reactions.sample
+    reactions[rand(reactions.length)]
   end
 
   def favorite_player
     player = player_info("Stephen", "Curry", "Point Guard", "Golden State Warriors", "6 feet 3 inches")
-    puts "#{player.first_name} #{player.last_name} plays for the #{player.team}! They play the #{player.role} position and are #{player.height} tall."
+    display_player_info(player)
   end
+  
   def view_player 
     puts "How would you like to view players?"
     puts "1. Predefined Players"
@@ -73,7 +65,6 @@ class Nba_Player
       puts "Invalid choice"
     end
   end
-
   def predefined_players
     puts "Here is a list of several of my favorite NBA players and what roles they play:"
     puts "1. Stephen Curry - Point Guard"
@@ -90,11 +81,10 @@ class Nba_Player
     else
       puts "Here are the custom players you've added:"
       @star.each_with_index do |player, index|
-        puts "#{index + 1}. #{player.first_name} #{player.last_name} - #{player.role} - #{player.team} - #{player.height}"
+        display_player_info(player)
       end
     end
   end
-  
 
   def user_add_player
     puts "Enter the name of the player you would like to add"
@@ -115,17 +105,25 @@ class Nba_Player
   end
 
   def add_player(name, role, team, height)
-      player = Nba_Player.new
-      player.first_name = name
-      player.role = role
-      player.team = team
-      player.height = height
-      @star << player
-      puts "You have #{name} on the list."
+    player = player_info(name, "", role, team, height)
+    @star << player
+    puts "You have #{name} on the list."
+  end
+    
+  private
+  
+  def puts_options_menu
+    puts 'Options'
+    puts '1. Favorite Player'
+    puts '2. Add Player'
+    puts '3. View Players'
+    puts '4. Take a shot'
+    puts '5. Exit'
+  end
+  def display_player_info(player)
+      puts "#{player.first_name} #{player.last_name} plays for the #{player.team}! They play the #{player.role} position and are #{player.height} tall."
     end
-    
-    private
-    
+  
     def player_info(first_name, last_name, role, team, height)
       player = Nba_Player.new
       player.first_name = first_name
@@ -138,5 +136,8 @@ class Nba_Player
   end
   
   # Initialize the class and start the program
-  player = Nba_Player.new
-  player.start
+  if $PROGRAM_NAME == __FILE__
+    player = Nba_Player.new
+    player.start
+  end
+  
